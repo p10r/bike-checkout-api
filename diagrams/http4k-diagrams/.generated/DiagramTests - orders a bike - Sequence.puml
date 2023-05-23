@@ -1,9 +1,12 @@
 @startuml
 title DiagramTests - orders a bike
+participant "customer"
 participant "checkout-api"
 participant "warehouse"
 database "db"
 participant "bank"
+"customer" -> "checkout-api": POST bikes/{id}/order
+activate "checkout-api"
 "checkout-api" -> "warehouse": GET bikes/{id}
 activate "warehouse"
 
@@ -16,4 +19,6 @@ activate "bank"
 "bank" -[#DarkGreen]> "checkout-api": <color:DarkGreen> 200 OK
 deactivate "bank"
 "checkout-api" <-> "db": create order
+"checkout-api" -[#DarkGreen]> "customer": <color:DarkGreen> 201 Created
+deactivate "checkout-api"
 @enduml

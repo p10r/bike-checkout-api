@@ -4,10 +4,12 @@ title DiagramTests - orders a bike
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 
+System(customer, "customer")
 System(checkoutapi, "checkout-api")
 System(warehouse, "warehouse")
 ContainerDb(db, "db")
 System(bank, "bank")    
+Rel_D(customer, checkoutapi, " ") 
 Rel_D(checkoutapi, warehouse, " ") 
 Rel_D(checkoutapi, db, " ") 
 Rel_D(checkoutapi, bank, " ")     
