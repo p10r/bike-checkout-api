@@ -15,6 +15,7 @@ dependencies {
     implementation(platform("org.http4k:http4k-bom:4.43.0.0"))
     implementation("org.http4k:http4k-core")
     implementation("org.http4k:http4k-format-jackson")
+    implementation("org.http4k:http4k-incubator")
 
     testImplementation("org.http4k:http4k-testing-approval")
     testImplementation("org.http4k:http4k-testing-strikt")
