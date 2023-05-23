@@ -1,0 +1,16 @@
+@startuml
+title DiagramTests - orders a bike
+participant "checkout-api"
+participant "warehouse"
+participant "bank"
+"checkout-api" -> "warehouse": GET bikes/{id}
+activate "warehouse"
+
+"warehouse" -[#DarkGreen]> "checkout-api": <color:DarkGreen> 200 OK
+deactivate "warehouse"
+"checkout-api" -> "bank": POST finalize
+activate "bank"
+
+"bank" -[#DarkGreen]> "checkout-api": <color:DarkGreen> 200 OK
+deactivate "bank"
+@enduml

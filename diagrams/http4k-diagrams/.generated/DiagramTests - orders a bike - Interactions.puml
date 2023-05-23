@@ -1,0 +1,12 @@
+@startuml
+title DiagramTests - orders a bike
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+
+System(checkoutapi, "checkout-api")
+System(warehouse, "warehouse")
+System(bank, "bank")    
+Rel_D(checkoutapi, warehouse, " ") 
+Rel_D(checkoutapi, bank, " ")     
+@enduml
