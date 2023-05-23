@@ -6,7 +6,9 @@ title DiagramTests - orders a bike
 
 System(checkoutapi, "checkout-api")
 System(warehouse, "warehouse")
+ContainerDb(db, "db")
 System(bank, "bank")    
 Rel_D(checkoutapi, warehouse, " ") 
+Rel_D(checkoutapi, db, " ") 
 Rel_D(checkoutapi, bank, " ")     
 @enduml

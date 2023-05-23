@@ -2,15 +2,18 @@
 title DiagramTests - orders a bike
 participant "checkout-api"
 participant "warehouse"
+database "db"
 participant "bank"
 "checkout-api" -> "warehouse": GET bikes/{id}
 activate "warehouse"
 
 "warehouse" -[#DarkGreen]> "checkout-api": <color:DarkGreen> 200 OK
 deactivate "warehouse"
+"checkout-api" <-> "db": find by user id
 "checkout-api" -> "bank": POST finalize
 activate "bank"
 
 "bank" -[#DarkGreen]> "checkout-api": <color:DarkGreen> 200 OK
 deactivate "bank"
+"checkout-api" <-> "db": create order
 @enduml

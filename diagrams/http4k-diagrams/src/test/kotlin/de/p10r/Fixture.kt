@@ -20,5 +20,5 @@ fun TestApp(
     events,
     bankUri = Uri.of("http://bank"), bankHttp = FakeBank(),
     warehouseUri = Uri.of("http://warehouse"), warehouseHttp = FakeWarehouse(stock),
-    db = FakeOrderRepository()
+    db = FakeOrderRepository(events)
 )
