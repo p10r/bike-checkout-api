@@ -3,7 +3,6 @@ package de.p10r
 import de.p10r.outgoing.WarehouseResponse
 import org.http4k.core.Method.GET
 import org.http4k.core.Request
-import org.http4k.core.Status
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.testing.ApprovalTest
 import org.http4k.testing.Approver
@@ -14,7 +13,7 @@ import strikt.assertions.isEqualTo
 
 @ExtendWith(ApprovalTest::class)
 class FinancingRatesTest {
-    val api = CheckoutApi(
+    val api = TestApp(
         stock = listOf(
             WarehouseResponse(
                 id = "123",

@@ -8,13 +8,12 @@ import org.http4k.core.Status.Companion.CREATED
 import org.http4k.core.Status.Companion.NOT_FOUND
 import org.http4k.core.Status.Companion.OK
 import org.http4k.core.with
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 
 class OrderBikeTest {
-    val checkout = CheckoutApi(
+    val checkout = TestApp(
         listOf(
             WarehouseResponse(
                 id = "111",
