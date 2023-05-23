@@ -25,9 +25,7 @@ class DiagramTests : RecordTraces() {
     fun `orders a bike`() {
         val request = Request(Method.POST, "/bikes/111/order")
             .with(orderBikeRequest of OrderBikeRequest(userId = "1", aFinancingRate))
-        val response = checkout(request)
 
-        println(events)
-        expectThat(response.status).isEqualTo(Status.CREATED)
+        expectThat(checkout(request).status).isEqualTo(Status.CREATED)
     }
 }

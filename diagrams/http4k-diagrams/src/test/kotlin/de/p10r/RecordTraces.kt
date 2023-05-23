@@ -1,6 +1,7 @@
 package de.p10r
 
 import org.http4k.events.Event
+import org.http4k.events.MetadataEvent
 import org.http4k.tracing.Actor
 import org.http4k.tracing.ActorResolver
 import org.http4k.tracing.ActorType
@@ -19,30 +20,31 @@ import java.io.File
 abstract class RecordTraces {
     @RegisterExtension
     val events = TracerBulletEvents(
-        listOf(::HttpTracer, ::DbTracer).map { it(ActorByService) },
+        listOf(::HttpTracer, ::DbTracer).map { tracer: (ActorResolver) -> Tracer -> tracer(actorByService()) },
         listOf(PumlSequenceDiagram, PumlInteractionDiagram),
         TraceRenderPersistence.FileSystem(File(".generated")),
         reportingMode = ReportingMode.Always
     )
 }
 
-val ActorByService = ActorResolver {
+private fun actorByService(): (MetadataEvent) -> Actor = ActorResolver {
     Actor(it.metadata["service"]!!.toString(), ActorType.System)
 }
 
-fun DbTracer(actorResolver: ActorResolver) = Tracer { parent, _, _ ->
+private fun DbTracer(actorResolver: ActorResolver) = Tracer { parent, _, _ ->
     parent
-        .takeIf { it.event is DbCall }
-        ?.let {
-            BiDirectional(
-                actorResolver(it),
-                Actor("db", ActorType.Database),
-                (it.event as DbCall).name,
-                emptyList()
-            )
-        }
-        ?.let { listOf(it) }
+        .takeIf { metadataEvent -> metadataEvent.event is DbCall }
+        ?.let { metadataEvent -> dbTraceOf(actorResolver, metadataEvent) }
+        ?.let { trace -> listOf(trace) }
         ?: emptyList()
 }
+
+private fun dbTraceOf(actorResolver: ActorResolver, metadataEvent: MetadataEvent) =
+    BiDirectional(
+        origin = actorResolver(metadataEvent),
+        target = Actor("db", ActorType.Database),
+        request = (metadataEvent.event as DbCall).name,
+        children = emptyList()
+    )
 
 data class DbCall(val name: String) : Event
